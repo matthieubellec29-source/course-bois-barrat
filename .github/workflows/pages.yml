@@ -1,0 +1,87 @@
+name: Publier le site
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v6
+
+      - name: Préparer le site statique
+        shell: bash
+        run: |
+          set -euo pipefail
+          source_url="https://course-bois-barrat.matthieu-bellec29.chatgpt.site"
+          mkdir -p _site/assets
+
+          curl --fail --location --retry 3 "$source_url/" --output _site/index.html
+
+          files=(
+            "village-montesquieu-lauragais.png"
+            "parcours-bois-barrat.png"
+            "course-bois-barrat.mp4"
+            "parcours-sous-bois-1.jpg"
+            "parcours-sous-bois-2.jpg"
+            "parcours-coteaux.jpg"
+            "parcours-foret.jpg"
+            "balisage-pastoral.jpg"
+            "boucle-bois-barrat.gpx"
+            "reglement-course-bois-barrat-2026.pdf"
+            "affiche-course-bois-barrat.pdf"
+            "favicon.svg"
+          )
+
+          for file in "${files[@]}"; do
+            curl --fail --location --retry 3 "$source_url/$file" --output "_site/$file"
+          done
+
+          css_path="$(grep -oE 'href="/assets/[^"]+\.css"' _site/index.html | head -1 | cut -d '"' -f2)"
+          curl --fail --location --retry 3 "$source_url$css_path" --output _site/assets/site.css
+
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          path = Path("_site/index.html")
+          html = path.read_text(encoding="utf-8")
+          html = re.sub(r"<script\b[^>]*>.*?</script>", "", html, flags=re.I | re.S)
+          html = re.sub(r'<link[^>]+rel="(?:modulepreload|preload)"[^>]+as="script"[^>]*>', "", html, flags=re.I)
+          html = re.sub(r'href="/assets/[^"]+\.css"', 'href="./assets/site.css"', html)
+          html = html.replace('href="/', 'href="./').replace('src="/', 'src="./')
+          path.write_text(html, encoding="utf-8")
+          Path("_site/404.html").write_text(html, encoding="utf-8")
+          Path("_site/.nojekyll").touch()
+          PY
+
+      - name: Configurer GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Préparer les fichiers à publier
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Mettre le site en ligne
+        id: deployment
+        uses: actions/deploy-pages@v4
