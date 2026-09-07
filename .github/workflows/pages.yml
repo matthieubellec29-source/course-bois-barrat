@@ -70,26 +70,26 @@ jobs:
           html = path.read_text(encoding="utf-8")
 
           # Retirer les scripts de l'application d'origine, devenue une page statique.
-          html = re.sub(r"<script\\b[^>]*>.*?</script>", "", html, flags=re.I | re.S)
+          html = re.sub(r"<script\b[^>]*>.*?</script>", "", html, flags=re.I | re.S)
           html = re.sub(
               r'<link[^>]+rel="(?:modulepreload|preload)"[^>]+as="script"[^>]*>',
               "",
               html,
               flags=re.I,
           )
-          html = re.sub(r'href="/assets/[^"]+\\.css"', 'href="./assets/site.css"', html)
+          html = re.sub(r'href="/assets/[^"]+\.css"', 'href="./assets/site.css"', html)
           html = html.replace('href="/', 'href="./').replace('src="/', 'src="./')
 
           # Métadonnées destinées à Google et aux partages sur les réseaux sociaux.
           html = re.sub(r"<title>.*?</title>", "", html, flags=re.I | re.S)
           html = re.sub(
-              r'<meta\\s+name="description"[^>]*>',
+              r'<meta\s+name="description"[^>]*>',
               "",
               html,
               flags=re.I,
           )
           html = re.sub(
-              r'<link\\s+rel="canonical"[^>]*>',
+              r'<link\s+rel="canonical"[^>]*>',
               "",
               html,
               flags=re.I,
@@ -141,7 +141,7 @@ jobs:
             <meta property="og:image" content="{site_url}village-montesquieu-lauragais.png" />
             <script type="application/ld+json">{json.dumps(event_data, ensure_ascii=False)}</script>
           """
-          html = html.replace("</head>", head_content + "\\n</head>", 1)
+          html = html.replace("</head>", head_content + "\n</head>", 1)
 
           # Résumé visible : date, lieu, distance et inscription.
           summary = """
@@ -153,27 +153,27 @@ jobs:
           </section>
           """
           if 'id="informations-essentielles"' not in html:
-              html = html.replace("</main>", summary + "\\n</main>", 1) if "</main>" in html else html.replace("</body>", summary + "\\n</body>", 1)
+              html = html.replace("</main>", summary + "\n</main>", 1) if "</main>" in html else html.replace("</body>", summary + "\n</body>", 1)
 
           path.write_text(html, encoding="utf-8")
           Path("_site/404.html").write_text(html, encoding="utf-8")
           Path("_site/.nojekyll").touch()
 
           Path("_site/robots.txt").write_text(
-              "User-agent: *\\n"
-              "Allow: /\\n"
-              f"Sitemap: {site_url}sitemap.xml\\n",
+              "User-agent: *\n"
+              "Allow: /\n"
+              f"Sitemap: {site_url}sitemap.xml\n",
               encoding="utf-8",
           )
 
           Path("_site/sitemap.xml").write_text(
-              '<?xml version="1.0" encoding="UTF-8"?>\\n'
-              '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\\n'
-              "  <url>\\n"
-              f"    <loc>{site_url}</loc>\\n"
-              "    <lastmod>2026-09-07</lastmod>\\n"
-              "  </url>\\n"
-              "</urlset>\\n",
+              '<?xml version="1.0" encoding="UTF-8"?>\n'
+              '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+              "  <url>\n"
+              f"    <loc>{site_url}</loc>\n"
+              "    <lastmod>2026-09-07</lastmod>\n"
+              "  </url>\n"
+              "</urlset>\n",
               encoding="utf-8",
           )
           PY
