@@ -59,6 +59,9 @@ jobs:
 
           path = Path("_site/index.html")
           html = path.read_text(encoding="utf-8")
+          verification = '<meta name="google-site-verification" content="fffKaP4LjJQp17s6XfDSiORD7ISvdOkSCbqG3VxKwuc" />'
+          if "google-site-verification" not in html:
+              html = html.replace("</head>", f"  {verification}\n</head>", 1)
           html = re.sub(r"<script\b[^>]*>.*?</script>", "", html, flags=re.I | re.S)
           html = re.sub(r'<link[^>]+rel="(?:modulepreload|preload)"[^>]+as="script"[^>]*>', "", html, flags=re.I)
           html = re.sub(r'href="/assets/[^"]+\.css"', 'href="./assets/site.css"', html)
