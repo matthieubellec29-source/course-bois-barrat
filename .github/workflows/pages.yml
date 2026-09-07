@@ -55,20 +55,127 @@ jobs:
 
           python3 - <<'PY'
           from pathlib import Path
+          import json
           import re
+
+          site_url = "https://matthieubellec29-source.github.io/course-bois-barrat/"
+          title = "Trail et marche de Montesquieu-Lauragais – 24 octobre 2026"
+          description = (
+              "Participez au Trail et à la marche de Montesquieu-Lauragais le samedi "
+              "24 octobre 2026 : un parcours nature de 12 km et 294 m de dénivelé positif "
+              "au cœur du Lauragais."
+          )
 
           path = Path("_site/index.html")
           html = path.read_text(encoding="utf-8")
-          verification = '<meta name="google-site-verification" content="fffKaP4LjJQp17s6XfDSiORD7ISvdOkSCbqG3VxKwuc" />'
-          if "google-site-verification" not in html:
-              html = html.replace("</head>", f"  {verification}\n</head>", 1)
-          html = re.sub(r"<script\b[^>]*>.*?</script>", "", html, flags=re.I | re.S)
-          html = re.sub(r'<link[^>]+rel="(?:modulepreload|preload)"[^>]+as="script"[^>]*>', "", html, flags=re.I)
-          html = re.sub(r'href="/assets/[^"]+\.css"', 'href="./assets/site.css"', html)
+
+          # Retirer les scripts de l'application d'origine, devenue une page statique.
+          html = re.sub(r"<script\\b[^>]*>.*?</script>", "", html, flags=re.I | re.S)
+          html = re.sub(
+              r'<link[^>]+rel="(?:modulepreload|preload)"[^>]+as="script"[^>]*>',
+              "",
+              html,
+              flags=re.I,
+          )
+          html = re.sub(r'href="/assets/[^"]+\\.css"', 'href="./assets/site.css"', html)
           html = html.replace('href="/', 'href="./').replace('src="/', 'src="./')
+
+          # Métadonnées destinées à Google et aux partages sur les réseaux sociaux.
+          html = re.sub(r"<title>.*?</title>", "", html, flags=re.I | re.S)
+          html = re.sub(
+              r'<meta\\s+name=["\\']description["\\'][^>]*>',
+              "",
+              html,
+              flags=re.I,
+          )
+          html = re.sub(
+              r'<link\\s+rel=["\\']canonical["\\'][^>]*>',
+              "",
+              html,
+              flags=re.I,
+          )
+
+          event_data = {
+              "@context": "https://schema.org",
+              "@type": "SportsEvent",
+              "name": title,
+              "description": description,
+              "startDate": "2026-10-24",
+              "eventStatus": "https://schema.org/EventScheduled",
+              "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+              "url": site_url,
+              "image": [
+                  site_url + "village-montesquieu-lauragais.png",
+                  site_url + "parcours-bois-barrat.png",
+              ],
+              "location": {
+                  "@type": "Place",
+                  "name": "Montesquieu-Lauragais",
+                  "address": {
+                      "@type": "PostalAddress",
+                      "addressLocality": "Montesquieu-Lauragais",
+                      "postalCode": "31450",
+                      "addressRegion": "Occitanie",
+                      "addressCountry": "FR",
+                  },
+              },
+              "offers": {
+                  "@type": "Offer",
+                  "url": "https://chrono-start.fr/Inscription/Course/detail/c/5458",
+                  "availability": "https://schema.org/InStock",
+                  "validFrom": "2026-09-01",
+              },
+          }
+
+          head_content = f"""
+            <title>{title}</title>
+            <meta name="description" content="{description}" />
+            <meta name="robots" content="index, follow, max-image-preview:large" />
+            <meta name="google-site-verification" content="fffKaP4LjJQp17s6XfDSiORD7ISvdOkSCbqG3VxKwuc" />
+            <link rel="canonical" href="{site_url}" />
+            <meta property="og:type" content="website" />
+            <meta property="og:locale" content="fr_FR" />
+            <meta property="og:title" content="{title}" />
+            <meta property="og:description" content="{description}" />
+            <meta property="og:url" content="{site_url}" />
+            <meta property="og:image" content="{site_url}village-montesquieu-lauragais.png" />
+            <script type="application/ld+json">{json.dumps(event_data, ensure_ascii=False)}</script>
+          """
+          html = html.replace("</head>", head_content + "\\n</head>", 1)
+
+          # Résumé visible : date, lieu, distance et inscription.
+          summary = """
+          <section aria-labelledby="informations-essentielles" style="max-width:1100px;margin:2rem auto;padding:1.5rem;color:inherit">
+            <h2 id="informations-essentielles">Trail et marche de Montesquieu-Lauragais</h2>
+            <p>Rendez-vous à Montesquieu-Lauragais le <strong>samedi 24 octobre 2026</strong>
+            pour un parcours nature de <strong>12 km</strong> avec <strong>294 m de dénivelé positif</strong>.</p>
+            <p><a href="https://chrono-start.fr/Inscription/Course/detail/c/5458">Inscription en ligne sur Chrono-Start</a></p>
+          </section>
+          """
+          if 'id="informations-essentielles"' not in html:
+              html = html.replace("</main>", summary + "\\n</main>", 1) if "</main>" in html else html.replace("</body>", summary + "\\n</body>", 1)
+
           path.write_text(html, encoding="utf-8")
           Path("_site/404.html").write_text(html, encoding="utf-8")
           Path("_site/.nojekyll").touch()
+
+          Path("_site/robots.txt").write_text(
+              "User-agent: *\\n"
+              "Allow: /\\n"
+              f"Sitemap: {site_url}sitemap.xml\\n",
+              encoding="utf-8",
+          )
+
+          Path("_site/sitemap.xml").write_text(
+              '<?xml version="1.0" encoding="UTF-8"?>\\n'
+              '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\\n'
+              "  <url>\\n"
+              f"    <loc>{site_url}</loc>\\n"
+              "    <lastmod>2026-09-07</lastmod>\\n"
+              "  </url>\\n"
+              "</urlset>\\n",
+              encoding="utf-8",
+          )
           PY
 
       - name: Configurer GitHub Pages
