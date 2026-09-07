@@ -83,13 +83,13 @@ jobs:
           # Métadonnées destinées à Google et aux partages sur les réseaux sociaux.
           html = re.sub(r"<title>.*?</title>", "", html, flags=re.I | re.S)
           html = re.sub(
-              r'<meta\\s+name=["\\']description["\\'][^>]*>',
+              r'<meta\\s+name="description"[^>]*>',
               "",
               html,
               flags=re.I,
           )
           html = re.sub(
-              r'<link\\s+rel=["\\']canonical["\\'][^>]*>',
+              r'<link\\s+rel="canonical"[^>]*>',
               "",
               html,
               flags=re.I,
