@@ -44,10 +44,15 @@ jobs:
             "reglement-course-bois-barrat-2026.pdf"
             "affiche-course-bois-barrat.pdf"
             "favicon.svg"
+            "parcours-enfants.svg"
           )
 
           for file in "${files[@]}"; do
-            curl --fail --location --retry 3 "$source_url/$file" --output "_site/$file"
+            if [ "$file" = "parcours-enfants.svg" ]; then
+              cp "$GITHUB_WORKSPACE/parcours-enfants.svg" "_site/$file"
+            else
+              curl --fail --location --retry 3 "$source_url/$file" --output "_site/$file"
+            fi
           done
 
           css_path="$(grep -oE 'href="/assets/[^"]+\.css"' _site/index.html | head -1 | cut -d '"' -f2)"
@@ -69,7 +74,6 @@ jobs:
           path = Path("_site/index.html")
           html = path.read_text(encoding="utf-8")
 
-          # Retirer les scripts de l'application d'origine, devenue une page statique.
           html = re.sub(r"<script\b[^>]*>.*?</script>", "", html, flags=re.I | re.S)
           html = re.sub(
               r'<link[^>]+rel="(?:modulepreload|preload)"[^>]+as="script"[^>]*>',
@@ -80,20 +84,9 @@ jobs:
           html = re.sub(r'href="/assets/[^"]+\.css"', 'href="./assets/site.css"', html)
           html = html.replace('href="/', 'href="./').replace('src="/', 'src="./')
 
-          # Métadonnées destinées à Google et aux partages sur les réseaux sociaux.
           html = re.sub(r"<title>.*?</title>", "", html, flags=re.I | re.S)
-          html = re.sub(
-              r'<meta\s+name="description"[^>]*>',
-              "",
-              html,
-              flags=re.I,
-          )
-          html = re.sub(
-              r'<link\s+rel="canonical"[^>]*>',
-              "",
-              html,
-              flags=re.I,
-          )
+          html = re.sub(r'<meta\s+name="description"[^>]*>', "", html, flags=re.I)
+          html = re.sub(r'<link\s+rel="canonical"[^>]*>', "", html, flags=re.I)
 
           event_data = {
               "@context": "https://schema.org",
@@ -104,10 +97,7 @@ jobs:
               "eventStatus": "https://schema.org/EventScheduled",
               "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
               "url": site_url,
-              "image": [
-                  site_url + "village-montesquieu-lauragais.png",
-                  site_url + "parcours-bois-barrat.png",
-              ],
+              "image": [site_url + "village-montesquieu-lauragais.png", site_url + "parcours-bois-barrat.png"],
               "location": {
                   "@type": "Place",
                   "name": "Montesquieu-Lauragais",
@@ -143,7 +133,6 @@ jobs:
           """
           html = html.replace("</head>", head_content + "\n</head>", 1)
 
-          # Résumé visible : date, lieu, distance et inscription.
           summary = """
           <section aria-labelledby="informations-essentielles" style="max-width:1100px;margin:2rem auto;padding:1.5rem;color:inherit">
             <h2 id="informations-essentielles">Trail et marche de Montesquieu-Lauragais</h2>
@@ -155,15 +144,33 @@ jobs:
           if 'id="informations-essentielles"' not in html:
               html = html.replace("</main>", summary + "\n</main>", 1) if "</main>" in html else html.replace("</body>", summary + "\n</body>", 1)
 
+          children = """
+          <section id="parcours-enfants" aria-labelledby="titre-parcours-enfants" style="max-width:1100px;margin:1rem auto 3rem;padding:1.5rem;color:inherit">
+            <div style="text-align:center;margin-bottom:1.2rem">
+              <h2 id="titre-parcours-enfants" style="margin-bottom:.4rem">Course enfants</h2>
+              <p style="margin:0;font-size:1.08rem">Un parcours de <strong>0,79 km</strong> avec <strong>16 m de dénivelé positif</strong>, au cœur de Montesquieu-Lauragais.</p>
+            </div>
+            <div style="background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,.10)">
+              <img src="./parcours-enfants.svg" alt="Carte du parcours enfants de 0,79 km de la Boucle du Bois Barrat 2026" style="display:block;width:100%;height:auto" loading="lazy">
+            </div>
+            <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:.75rem;margin-top:1rem">
+              <span style="padding:.65rem 1rem;border-radius:999px;background:#f1f5f2">0,79 km</span>
+              <span style="padding:.65rem 1rem;border-radius:999px;background:#f1f5f2">D+ 16 m</span>
+              <span style="padding:.65rem 1rem;border-radius:999px;background:#f1f5f2">D− 16 m</span>
+              <span style="padding:.65rem 1rem;border-radius:999px;background:#f1f5f2">Départ / arrivée à Montesquieu-Lauragais</span>
+            </div>
+          </section>
+          """
+          if 'id="parcours-enfants"' not in html:
+              html = html.replace("</main>", children + "\n</main>", 1) if "</main>" in html else html.replace("</body>", children + "\n</body>", 1)
+
           path.write_text(html, encoding="utf-8")
           Path("_site/404.html").write_text(html, encoding="utf-8")
           Path("_site/.nojekyll").touch()
 
           Path("_site/robots.txt").write_text(
-              "User-agent: *\n"
-              "Allow: /\n"
-              f"Sitemap: {site_url}sitemap.xml\n",
-              encoding="utf-8",
+              "User-agent: *\nAllow: /\n"
+              f"Sitemap: {site_url}sitemap.xml\n", encoding="utf-8"
           )
 
           Path("_site/sitemap.xml").write_text(
@@ -171,10 +178,9 @@ jobs:
               '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
               "  <url>\n"
               f"    <loc>{site_url}</loc>\n"
-              "    <lastmod>2026-09-07</lastmod>\n"
+              "    <lastmod>2026-09-14</lastmod>\n"
               "  </url>\n"
-              "</urlset>\n",
-              encoding="utf-8",
+              "</urlset>\n", encoding="utf-8"
           )
           PY
 
