@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 620" role="img" aria-labelledby="title desc">
+<title id="title">Parcours enfants - Boucle du Bois Barrat 2026</title>
+<desc id="desc">Parcours enfants de 0,79 km à Montesquieu-Lauragais, avec 16 mètres de dénivelé positif et négatif.</desc>
+<rect width="1400" height="620" fill="#f7f8f5"/>
+<g stroke="#d8ddd8" stroke-width="3" fill="none" opacity=".9">
+  <path d="M320 0 C350 100 370 170 410 245 S520 380 560 620"/>
+  <path d="M610 0 C590 110 600 190 650 260 S760 390 810 620"/>
+  <path d="M900 0 C850 110 850 180 900 250 S1040 390 1090 620"/>
+  <path d="M1100 0 C1080 120 1110 210 1180 300 S1290 440 1400 470"/>
+  <path d="M0 150 C240 170 380 190 560 180 S920 130 1400 170"/>
+  <path d="M0 300 C260 280 410 310 610 330 S1050 360 1400 330"/>
+  <path d="M0 475 C220 430 390 450 610 470 S1040 520 1400 500"/>
+</g>
+<g stroke="#ffffff" stroke-width="11" fill="none">
+  <path d="M170 560 C300 480 370 405 405 310 C435 230 420 150 500 100 C590 42 720 30 820 58 C910 82 960 130 1040 160 C1110 187 1150 220 1175 265"/>
+  <path d="M1175 265 C1110 300 1060 330 1010 365 C940 415 870 455 790 485"/>
+</g>
+<g stroke="#c4c9c5" stroke-width="3" fill="none">
+  <path d="M170 560 C300 480 370 405 405 310 C435 230 420 150 500 100 C590 42 720 30 820 58 C910 82 960 130 1040 160 C1110 187 1150 220 1175 265"/>
+  <path d="M1175 265 C1110 300 1060 330 1010 365 C940 415 870 455 790 485"/>
+  <path d="M720 80 L720 280 L920 280 L1020 190"/>
+  <path d="M840 350 L1120 350"/>
+  <path d="M560 210 L760 210"/>
+</g>
+<g fill="#dfe9d8" opacity=".9">
+  <path d="M0 0 H430 C400 110 430 170 350 260 C270 350 180 360 0 330Z"/>
+  <path d="M430 360 C520 300 620 330 690 390 C720 450 690 540 620 620 H350 C390 520 360 450 430 360Z"/>
+  <path d="M980 0 H1400 V210 C1280 220 1210 180 1130 120 C1080 80 1030 55 980 0Z"/>
+</g>
+<!-- Parcours enfant -->
+<path d="M850 135 L965 155 L1010 210 L1000 255 L1075 295 L1025 350 L930 395 L865 360 L805 315 L770 250 L790 185 Z" fill="none" stroke="#d10b4f" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M850 135 L965 155 L1010 210 L1000 255 L1075 295 L1025 350 L930 395 L865 360 L805 315 L770 250 L790 185 Z" fill="none" stroke="#ffffff" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="850" cy="135" r="13" fill="#2cab4b" stroke="#fff" stroke-width="5"/>
+<circle cx="850" cy="135" r="4" fill="#fff"/>
+<g font-family="Arial, Helvetica, sans-serif" fill="#263238">
+  <rect x="32" y="28" width="330" height="155" rx="18" fill="#fff" opacity=".96"/>
+  <text x="58" y="68" font-size="25" font-weight="700">COURSE ENFANTS</text>
+  <text x="58" y="104" font-size="20">Boucle du Bois Barrat 2026</text>
+  <text x="58" y="139" font-size="19">0,79 km  •  D+ 16 m  •  D− 16 m</text>
+  <text x="58" y="169" font-size="17">Montesquieu-Lauragais • 24/10/2026</text>
+  <rect x="1040" y="435" width="320" height="145" rx="18" fill="#fff" opacity=".96"/>
+  <text x="1070" y="475" font-size="21" font-weight="700">PARCOURS ENFANTS</text>
+  <text x="1070" y="510" font-size="17">Départ / arrivée</text>
+  <circle cx="1054" cy="505" r="9" fill="#2cab4b"/>
+  <text x="1070" y="540" font-size="17">Boucle courte et accessible</text>
+  <text x="1070" y="566" font-size="17">0,79 km • 16 m D+</text>
+</g>
+</svg>
