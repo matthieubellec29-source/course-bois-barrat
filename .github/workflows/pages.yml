@@ -44,12 +44,12 @@ jobs:
             "reglement-course-bois-barrat-2026.pdf"
             "affiche-course-bois-barrat.pdf"
             "favicon.svg"
-            "parcours-enfants.svg"
+            "course enfants.png"
           )
 
           for file in "${files[@]}"; do
-            if [ "$file" = "parcours-enfants.svg" ]; then
-              cp "$GITHUB_WORKSPACE/parcours-enfants.svg" "_site/$file"
+            if [ "$file" = "course enfants.png" ]; then
+              cp "$GITHUB_WORKSPACE/course enfants.png" "_site/$file"
             else
               curl --fail --location --retry 3 "$source_url/$file" --output "_site/$file"
             fi
@@ -151,7 +151,7 @@ jobs:
               <p style="margin:0;font-size:1.08rem">Un parcours de <strong>0,79 km</strong> avec <strong>16 m de dénivelé positif</strong>, au cœur de Montesquieu-Lauragais.</p>
             </div>
             <div style="background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,.10)">
-              <img src="./parcours-enfants.svg" alt="Carte du parcours enfants de 0,79 km de la Boucle du Bois Barrat 2026" style="display:block;width:100%;height:auto" loading="lazy">
+              <img src="./course enfants.png" alt="Carte du parcours enfants de 0,79 km de la Boucle du Bois Barrat 2026" style="display:block;width:100%;height:auto" loading="lazy">
             </div>
             <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:.75rem;margin-top:1rem">
               <span style="padding:.65rem 1rem;border-radius:999px;background:#f1f5f2">0,79 km</span>
