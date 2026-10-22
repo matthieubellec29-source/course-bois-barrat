@@ -45,10 +45,11 @@ jobs:
             "affiche-course-bois-barrat.pdf"
             "favicon.svg"
             "course enfants.png"
+            "parking.png"
           )
 
           for file in "${files[@]}"; do
-            if [ "$file" = "course enfants.png" ]; then
+            if [ "$file" = "course enfants.png" ] || [ "$file" = "parking.png" ]; then
               cp "$GITHUB_WORKSPACE/$file" "_site/$file"
             else
               curl --fail --location --retry 3 "$source_url/$file" --output "_site/$file"
@@ -161,6 +162,22 @@ jobs:
           """
           if 'id="parcours-enfants"' not in html:
               html = html.replace("</main>", children + "\n</main>", 1) if "</main>" in html else html.replace("</body>", children + "\n</body>", 1)
+
+          parking = """
+          <section id="parking" aria-labelledby="titre-parking" style="max-width:1100px;margin:1rem auto 3rem;padding:1.5rem;color:inherit">
+            <div style="text-align:center;margin-bottom:1.2rem">
+              <h2 id="titre-parking" style="margin-bottom:.4rem">Accès et stationnement</h2>
+              <p>Pour rejoindre la Course du Bois Barrat, plusieurs zones de stationnement sont repérées en bleu sur le plan.</p>
+            </div>
+            <div style="background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,.10);margin:1rem 0">
+              <img src="./parking.png" alt="Plan des stationnements : montée en Serny, côte de la Négra et chemin de ronde, à Montesquieu-Lauragais" style="display:block;width:100%;height:auto" loading="lazy">
+            </div>
+            <p><strong>Zones de stationnement :</strong> montée en Serny vers le village, côte de la Négra et chemin de ronde (Sol de Madame).</p>
+            <p><strong>Consigne de circulation :</strong> stationnez à droite dans le sens privilégié de circulation. Respectez la signalisation et veillez à laisser libres les accès aux habitations.</p>
+          </section>
+          """
+          html = re.sub(r'<section\b[^>]*id="parking"[^>]*>.*?</section>', '', html, flags=re.I | re.S)
+          html = html.replace("</main>", parking + "\n</main>", 1) if "</main>" in html else html.replace("</body>", parking + "\n</body>", 1)
 
           path.write_text(html, encoding="utf-8")
 
