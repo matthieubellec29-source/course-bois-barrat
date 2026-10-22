@@ -141,13 +141,10 @@ jobs:
           """
           html = html.replace("</head>", head_content + "\n</head>", 1)
 
-          # Mettre à jour l'heure de retrait des dossards dans le contenu source.
-          html = re.sub(
-              r'((?:retrait|récupération)\\s*(?:des\\s*)?dossards?[^<]{0,100}?)(?:7\\s*h\\s*(?:00)?|07[:h]00|7:00)',
-              lambda m: m.group(1) + "8h",
-              html,
-              flags=re.I,
-          )
+          # Corriger directement les textes visibles de la section retrait des dossards.
+          html = re.sub(r'Dès\\s*7\\s*h(?:\\s*00)?', 'Dès 8 h', html, flags=re.I)
+          html = re.sub(r'Sous la halle du village\\s*[·\\-–]\\s*rue des Plumassières', 'À la mairie de Montesquieu-Lauragais', html, flags=re.I)
+          html = re.sub(r'Sous la halle du village', 'À la mairie de Montesquieu-Lauragais', html, flags=re.I)
 
           children = """
           <section id="parcours-enfants" aria-labelledby="titre-parcours-enfants" style="max-width:1100px;margin:1rem auto 3rem;padding:1.5rem;color:inherit">
