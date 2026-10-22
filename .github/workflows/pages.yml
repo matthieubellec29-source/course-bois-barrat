@@ -140,17 +140,6 @@ jobs:
           """
           html = html.replace("</head>", head_content + "\n</head>", 1)
 
-          summary = """
-          <section aria-labelledby="informations-essentielles" style="max-width:1100px;margin:2rem auto;padding:1.5rem;color:inherit">
-            <h2 id="informations-essentielles">Trail et marche de Montesquieu-Lauragais</h2>
-            <p>Rendez-vous à Montesquieu-Lauragais le <strong>samedi 24 octobre 2026</strong>
-            pour un parcours nature de <strong>12 km</strong> avec <strong>294 m de dénivelé positif</strong>.</p>
-            <p><a href="https://chrono-start.fr/Inscription/Course/detail/c/5458">Inscription en ligne sur Chrono-Start</a></p>
-          </section>
-          """
-          if 'id="informations-essentielles"' not in html:
-              html = html.replace("</main>", summary + "\n</main>", 1) if "</main>" in html else html.replace("</body>", summary + "\n</body>", 1)
-
           children = """
           <section id="parcours-enfants" aria-labelledby="titre-parcours-enfants" style="max-width:1100px;margin:1rem auto 3rem;padding:1.5rem;color:inherit">
             <div style="text-align:center;margin-bottom:1.2rem">
