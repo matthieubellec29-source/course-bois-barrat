@@ -141,6 +141,14 @@ jobs:
           """
           html = html.replace("</head>", head_content + "\n</head>", 1)
 
+          # Mettre à jour l'heure de retrait des dossards dans le contenu source.
+          html = re.sub(
+              r'((?:retrait|récupération)\\s*(?:des\\s*)?dossards?[^<]{0,100}?)(?:7\\s*h\\s*(?:00)?|07[:h]00|7:00)',
+              lambda m: m.group(1) + "8h",
+              html,
+              flags=re.I,
+          )
+
           children = """
           <section id="parcours-enfants" aria-labelledby="titre-parcours-enfants" style="max-width:1100px;margin:1rem auto 3rem;padding:1.5rem;color:inherit">
             <div style="text-align:center;margin-bottom:1.2rem">
