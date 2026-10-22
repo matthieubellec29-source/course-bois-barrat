@@ -190,8 +190,18 @@ jobs:
             <p style="text-align:center;margin:.4rem 0 0">Suivez la signalisation et les indications des bénévoles sur place.</p>
           </section>
           """
-          if 'id="parking"' not in html:
-              html = html.replace("</main>", parking + "\n</main>", 1) if "</main>" in html else html.replace("</body>", parking + "\n</body>", 1)
+         html = re.sub(
+    r'<section\b[^>]*id="parking"[^>]*>.*?</section>',
+    '',
+    html,
+    flags=re.I | re.S
+)
+
+html = (
+    html.replace("</main>", parking + "\n</main>", 1)
+    if "</main>" in html
+    else html.replace("</body>", parking + "\n</body>", 1)
+)
 
           path.write_text(html, encoding="utf-8")
           Path("_site/404.html").write_text(html, encoding="utf-8")
