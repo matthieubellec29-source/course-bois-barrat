@@ -145,6 +145,11 @@ jobs:
             <div style="text-align:center;margin-bottom:1.2rem">
               <h2 id="titre-parcours-enfants" style="margin-bottom:.4rem">Course enfants</h2>
               <p style="margin:0;font-size:1.08rem">Une boucle d'environ <strong>500 mètres</strong> dans le village de Montesquieu-Lauragais.</p>
+            </div>
+            <div style="background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,.10);margin:1.2rem 0">
+              <img src="./course enfants.png" alt="Plan de la boucle de 500 mètres de la course enfants à Montesquieu-Lauragais" style="display:block;width:100%;height:auto" loading="lazy">
+            </div>
+            <div style="text-align:center">
               <p><strong>Éveil Athlétique (EA) :</strong> 1 boucle, soit environ 500 m.<br><strong>Catégories supérieures :</strong> 2 boucles, soit environ 1 km.</p>
             </div>
             <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:.75rem;margin-top:1rem">
