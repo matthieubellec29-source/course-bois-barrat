@@ -141,10 +141,12 @@ jobs:
           """
           html = html.replace("</head>", head_content + "\n</head>", 1)
 
-          # Corriger directement les textes visibles de la section retrait des dossards.
-          html = re.sub(r'Dès\\s*7\\s*h(?:\\s*00)?', 'Dès 8 h', html, flags=re.I)
-          html = re.sub(r'Sous la halle du village\\s*[·\\-–]\\s*rue des Plumassières', 'À la mairie de Montesquieu-Lauragais', html, flags=re.I)
-          html = re.sub(r'Sous la halle du village', 'À la mairie de Montesquieu-Lauragais', html, flags=re.I)
+          # Corriger les informations pratiques, y compris si des balises séparent les mots.
+          html = html.replace("Dès 7 h", "Dès 8 h").replace("Dès 7h", "Dès 8 h")
+          html = html.replace("Sous la halle du village · rue des Plumassières", "À la mairie de Montesquieu-Lauragais")
+          html = html.replace("Sous la halle du village", "À la mairie de Montesquieu-Lauragais")
+          html = re.sub(r'Dès\s*7\s*h(?:\s*00)?', 'Dès 8 h', html, flags=re.I)
+          html = re.sub(r'Sous\s+la\s+halle\s+du\s+village(?:\s*[·\-–]\s*rue\s+des\s+Plumassières)?', 'À la mairie de Montesquieu-Lauragais', html, flags=re.I)
 
           children = """
           <section id="parcours-enfants" aria-labelledby="titre-parcours-enfants" style="max-width:1100px;margin:1rem auto 3rem;padding:1.5rem;color:inherit">
