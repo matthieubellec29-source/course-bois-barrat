@@ -45,11 +45,12 @@ jobs:
             "affiche-course-bois-barrat.pdf"
             "favicon.svg"
             "course enfants.png"
+            "parking.svg"
           )
 
           for file in "${files[@]}"; do
-            if [ "$file" = "course enfants.png" ]; then
-              cp "$GITHUB_WORKSPACE/course enfants.png" "_site/$file"
+            if [ "$file" = "course enfants.png" ] || [ "$file" = "parking.svg" ]; then
+              cp "$GITHUB_WORKSPACE/$file" "_site/$file"
             else
               curl --fail --location --retry 3 "$source_url/$file" --output "_site/$file"
             fi
@@ -170,6 +171,27 @@ jobs:
           """
           if 'id="parcours-enfants"' not in html:
               html = html.replace("</main>", children + "\n</main>", 1) if "</main>" in html else html.replace("</body>", children + "\n</body>", 1)
+
+          parking = """
+          <section id="parking" aria-labelledby="titre-parking" style="max-width:1100px;margin:1rem auto 3rem;padding:1.5rem;color:inherit">
+            <div style="text-align:center;margin-bottom:1.2rem">
+              <h2 id="titre-parking" style="margin-bottom:.4rem">Comment se garer ?</h2>
+              <p style="margin:0;font-size:1.08rem">Pour faciliter la circulation le matin de la course, plusieurs zones de stationnement sont prévues autour du village.</p>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-bottom:1.5rem">
+              <div style="background:#eef8fc;border-radius:16px;padding:1rem 1.2rem;border-left:5px solid #159bd3"><strong>1 · Montée en Serny</strong><br>Stationnement en remontant vers le village.</div>
+              <div style="background:#eef8fc;border-radius:16px;padding:1rem 1.2rem;border-left:5px solid #159bd3"><strong>2 · Côte de la Négra</strong><br>Utilisez les emplacements disponibles le long de cette zone.</div>
+              <div style="background:#eef8fc;border-radius:16px;padding:1rem 1.2rem;border-left:5px solid #159bd3"><strong>3 · Chemin de ronde</strong><br>Zone indiquée sur le plan, côté « sol de Madame ».</div>
+            </div>
+            <div style="background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,.10);margin-bottom:1rem">
+              <img src="./parking.svg" alt="Plan des zones de stationnement de la Course du Bois Barrat" style="display:block;width:100%;height:auto" loading="lazy">
+            </div>
+            <p style="text-align:center;margin:.7rem 0 0;font-weight:700">Important : garez-vous à droite dans le sens privilégié de circulation et laissez libres les accès aux habitations.</p>
+            <p style="text-align:center;margin:.4rem 0 0">Suivez la signalisation et les indications des bénévoles sur place.</p>
+          </section>
+          """
+          if 'id="parking"' not in html:
+              html = html.replace("</main>", parking + "\n</main>", 1) if "</main>" in html else html.replace("</body>", parking + "\n</body>", 1)
 
           path.write_text(html, encoding="utf-8")
           Path("_site/404.html").write_text(html, encoding="utf-8")
