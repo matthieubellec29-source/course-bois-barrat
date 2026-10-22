@@ -45,11 +45,11 @@ jobs:
             "affiche-course-bois-barrat.pdf"
             "favicon.svg"
             "course enfants.png"
-            "parking.svg"
+            "parking.png"
           )
 
           for file in "${files[@]}"; do
-            if [ "$file" = "course enfants.png" ] || [ "$file" = "parking.svg" ]; then
+            if [ "$file" = "course enfants.png" ] || [ "$file" = "parking.png" ]; then
               cp "$GITHUB_WORKSPACE/$file" "_site/$file"
             else
               curl --fail --location --retry 3 "$source_url/$file" --output "_site/$file"
@@ -184,7 +184,7 @@ jobs:
               <div style="background:#eef8fc;border-radius:16px;padding:1rem 1.2rem;border-left:5px solid #159bd3"><strong>3 · Chemin de ronde</strong><br>Zone indiquée sur le plan, côté « sol de Madame ».</div>
             </div>
             <div style="background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,.10);margin-bottom:1rem">
-              <img src="./parking.svg" alt="Plan des zones de stationnement de la Course du Bois Barrat" style="display:block;width:100%;height:auto" loading="lazy">
+              <img src="./parking.png" alt="Plan des zones de stationnement de la Course du Bois Barrat" style="display:block;width:100%;height:auto" loading="lazy">
             </div>
             <p style="text-align:center;margin:.7rem 0 0;font-weight:700">Important : garez-vous à droite dans le sens privilégié de circulation et laissez libres les accès aux habitations.</p>
             <p style="text-align:center;margin:.4rem 0 0">Suivez la signalisation et les indications des bénévoles sur place.</p>
