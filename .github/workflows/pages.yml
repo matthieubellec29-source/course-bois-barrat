@@ -142,10 +142,10 @@ jobs:
           html = html.replace("</head>", head_content + "\n</head>", 1)
 
           # Corriger les informations pratiques, y compris si des balises séparent les mots.
-          html = html.replace("Dès 7 h", "Dès 8 h").replace("Dès 7h", "Dès 8 h")
+          html = html.replace("Dès 7 h", "Dès 7 h 45").replace("Dès 7h", "Dès 7 h 45")
           html = html.replace("Sous la halle du village · rue des Plumassières", "À la mairie de Montesquieu-Lauragais")
           html = html.replace("Sous la halle du village", "À la mairie de Montesquieu-Lauragais")
-          html = re.sub(r'Dès\s*7\s*h(?:\s*00)?', 'Dès 8 h', html, flags=re.I)
+          html = re.sub(r'Dès\s*7\s*h(?:\s*00)?', 'Dès 7 h 45', html, flags=re.I)
           html = re.sub(r'Sous\s+la\s+halle\s+du\s+village(?:\s*[·\-–]\s*rue\s+des\s+Plumassières)?', 'À la mairie de Montesquieu-Lauragais', html, flags=re.I)
 
           children = """
