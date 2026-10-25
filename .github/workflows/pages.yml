@@ -207,6 +207,9 @@ jobs:
           )
           PY
 
+      - name: Ajouter la galerie de l’édition 2026
+        run: python3 scripts/add-gallery.py
+
       - name: Configurer GitHub Pages
         uses: actions/configure-pages@v5
 
