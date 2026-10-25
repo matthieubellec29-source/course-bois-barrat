@@ -16,7 +16,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  SITE_MAINTENANCE: 'true'
+  SITE_MAINTENANCE: 'false'
 
 jobs:
   build:
