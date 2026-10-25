@@ -33,7 +33,7 @@ gallery = '''
 @media(max-width:760px){#photos-2026 .photo2026-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}#photo2026-dialog .viewer-foot{flex-wrap:wrap}#photo2026-dialog button{padding:10px}}
 </style>
 <section id="photos-2026" aria-labelledby="photos2026-title">
-<div class="photo2026-heading"><p>LES SOUVENIRS DU 24 OCTOBRE</p><h2 id="photos2026-title">Photos de l’édition 2026</h2><p>Merci à toutes et à tous pour cette belle journée à Montesquieu-Lauragais !</p><p>__COUNT__ photos · Cliquez sur une photo pour l’agrandir.</p><p class="photo2026-credit">Crédit photo : <strong>Magali Cattarelli</strong> — <a href="https://www.facebook.com/hashtag/magali" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline">#magali-du-lauragais</a></p></div>
+<div class="photo2026-heading"><p>LES SOUVENIRS DU 24 OCTOBRE</p><h2 id="photos2026-title">Photos de l’édition 2026</h2><p>Merci à toutes et à tous pour cette belle journée à Montesquieu-Lauragais !</p><p>__COUNT__ photos · Cliquez sur une photo pour l’agrandir.</p><p class="photo2026-credit">Crédit photo : <strong>Magali Cattarelli</strong> — <a href="https://www.instagram.com/magali_du_lauragais/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline">@magali_du_lauragais</a></p></div>
 <div class="photo2026-grid">__CARDS__</div>
 <div class="photo2026-more"><p id="photos2026-count" aria-live="polite">24 photos sur __COUNT__</p><button id="photos2026-more" type="button">Voir plus de photos</button></div>
 <noscript><style>#photos-2026 .photo2026-card[hidden]{display:block}#photos-2026 .photo2026-more{display:none}</style></noscript>
