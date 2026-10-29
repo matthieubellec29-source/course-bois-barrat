@@ -34,6 +34,14 @@ gallery = '''
 #photo2026-dialog a{color:white;text-decoration:underline}
 @media(max-width:760px){#photos-2026 .photo2026-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}#photo2026-dialog .viewer-foot{flex-wrap:wrap}#photo2026-dialog button{padding:10px}}
 </style>
+<section id="depart-2026" aria-labelledby="depart2026-title" style="max-width:1200px;margin:3rem auto;padding:2rem 1.25rem;text-align:center">
+<h2 id="depart2026-title">Le départ en vidéo</h2>
+<p>Revivez le départ de l’édition 2026 à Montesquieu-Lauragais.</p>
+<video controls playsinline preload="none" poster="./photos-2026/depart-2026-apercu.jpg" width="478" height="850" style="display:block;width:100%;max-width:478px;height:auto;max-height:80vh;object-fit:contain;margin:1.5rem auto;background:#101814;border-radius:12px" aria-label="Vidéo du départ de la Course du Bois Barrat, édition 2026">
+<source src="./photos-2026/depart-2026.mp4" type="video/mp4">
+Votre navigateur ne permet pas de lire cette vidéo. <a href="./photos-2026/depart-2026.mp4">Télécharger la vidéo du départ</a>.
+</video>
+</section>
 <section id="photos-2026" aria-labelledby="photos2026-title">
 <div class="photo2026-heading"><p>LES SOUVENIRS DU 24 OCTOBRE</p><h2 id="photos2026-title">Photos de l’édition 2026</h2><p>Merci à toutes et à tous pour cette belle journée à Montesquieu-Lauragais !</p><p>__COUNT__ photos · Cliquez sur une photo pour l’agrandir.</p><p class="photo2026-credit">Crédit photo : <strong>Magali Cattarelli</strong> — <a href="https://www.instagram.com/magali_du_lauragais/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline">@magali_du_lauragais</a><br>Nouvelle série : <strong>les fortiches du lauragais</strong></p></div>
 <div class="photo2026-grid">__CARDS__</div>
