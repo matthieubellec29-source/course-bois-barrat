@@ -38,8 +38,8 @@ gallery = '''
 <h2 id="depart2026-title">Le départ en vidéo</h2>
 <p>Revivez le départ de l’édition 2026 à Montesquieu-Lauragais.</p>
 <video controls playsinline preload="none" poster="./photos-2026/depart-2026-apercu.jpg" width="478" height="850" style="display:block;width:100%;max-width:478px;height:auto;max-height:80vh;object-fit:contain;margin:1.5rem auto;background:#101814;border-radius:12px" aria-label="Vidéo du départ de la Course du Bois Barrat, édition 2026">
-<source src="./photos-2026/depart-2026-complet.mp4" type="video/mp4">
-Votre navigateur ne permet pas de lire cette vidéo. <a href="./photos-2026/depart-2026-complet.mp4">Télécharger la vidéo du départ</a>.
+<source src="./photos-2026/depart-2026-hq.mp4" type="video/mp4">
+Votre navigateur ne permet pas de lire cette vidéo. <a href="./photos-2026/depart-2026-hq.mp4">Télécharger la vidéo du départ</a>.
 </video>
 </section>
 <section id="photos-2026" aria-labelledby="photos2026-title">
