@@ -1,5 +1,6 @@
 from pathlib import Path
 import json, shutil
+from html import escape
 
 root = Path(__file__).resolve().parent.parent
 site = root / '_site'
@@ -8,7 +9,8 @@ shutil.copytree(root / 'photos-2026', site / 'photos-2026', dirs_exist_ok=True)
 cards = []
 for i, p in enumerate(photos):
     name = p['file']
-    cards.append(f'<a class="photo2026-card" href="./photos-2026/{name}" data-photo="{i}" aria-label="Agrandir la photo {i+1}"{ " hidden" if i >= 24 else ""}><img src="./photos-2026/thumbs/{name}" alt="Course du Bois Barrat, édition 2026 — photo {i+1}" loading="lazy" width="480" height="320"><span>{i+1:03}</span></a>')
+    credit = escape(p.get('credit', 'Magali Cattarelli'), quote=True)
+    cards.append(f'<a class="photo2026-card" href="./photos-2026/{name}" data-photo="{i}" data-credit="{credit}" aria-label="Agrandir la photo {i+1}"{ " hidden" if i >= 24 else ""}><img src="./photos-2026/thumbs/{name}" alt="Course du Bois Barrat, édition 2026 — photo {i+1}" loading="lazy" width="480" height="320"><span>{i+1:03}</span></a>')
 gallery = '''
 <style>
 #photos-2026{max-width:1200px;margin:3rem auto;padding:2rem 1.25rem;scroll-margin-top:90px}
@@ -33,7 +35,7 @@ gallery = '''
 @media(max-width:760px){#photos-2026 .photo2026-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}#photo2026-dialog .viewer-foot{flex-wrap:wrap}#photo2026-dialog button{padding:10px}}
 </style>
 <section id="photos-2026" aria-labelledby="photos2026-title">
-<div class="photo2026-heading"><p>LES SOUVENIRS DU 24 OCTOBRE</p><h2 id="photos2026-title">Photos de l’édition 2026</h2><p>Merci à toutes et à tous pour cette belle journée à Montesquieu-Lauragais !</p><p>__COUNT__ photos · Cliquez sur une photo pour l’agrandir.</p><p class="photo2026-credit">Crédit photo : <strong>Magali Cattarelli</strong> — <a href="https://www.instagram.com/magali_du_lauragais/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline">@magali_du_lauragais</a></p></div>
+<div class="photo2026-heading"><p>LES SOUVENIRS DU 24 OCTOBRE</p><h2 id="photos2026-title">Photos de l’édition 2026</h2><p>Merci à toutes et à tous pour cette belle journée à Montesquieu-Lauragais !</p><p>__COUNT__ photos · Cliquez sur une photo pour l’agrandir.</p><p class="photo2026-credit">Crédit photo : <strong>Magali Cattarelli</strong> — <a href="https://www.instagram.com/magali_du_lauragais/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline">@magali_du_lauragais</a><br>Nouvelle série : <strong>les fortiches du lauragais</strong></p></div>
 <div class="photo2026-grid">__CARDS__</div>
 <div class="photo2026-more"><p id="photos2026-count" aria-live="polite">24 photos sur __COUNT__</p><button id="photos2026-more" type="button">Voir plus de photos</button></div>
 <noscript><style>#photos-2026 .photo2026-card[hidden]{display:block}#photos-2026 .photo2026-more{display:none}</style></noscript>
@@ -41,13 +43,14 @@ gallery = '''
 <dialog id="photo2026-dialog" aria-label="Photo de l’édition 2026">
 <div class="viewer-head"><span id="photo2026-position" aria-live="polite"></span><button id="photo2026-close" type="button" autofocus>Fermer ✕</button></div>
 <img id="photo2026-image" alt="">
+<p id="photo2026-credit" style="text-align:center"></p>
 <div class="viewer-foot"><button id="photo2026-prev" type="button" aria-label="Photo précédente">← Précédente</button><a id="photo2026-download" download>Télécharger la photo</a><button id="photo2026-next" type="button" aria-label="Photo suivante">Suivante →</button></div>
 </dialog>
 <script>
 (()=>{
  const cards=[...document.querySelectorAll('.photo2026-card')],dialog=document.getElementById('photo2026-dialog'),image=document.getElementById('photo2026-image');
  let shown=24,index=0,opener=null;
- function show(i){index=(i+cards.length)%cards.length;image.src=cards[index].href;image.alt=cards[index].querySelector('img').alt;document.getElementById('photo2026-position').textContent=`Photo ${index+1} / ${cards.length}`;document.getElementById('photo2026-download').href=image.src;}
+ function show(i){index=(i+cards.length)%cards.length;image.src=cards[index].href;image.alt=cards[index].querySelector('img').alt;document.getElementById('photo2026-position').textContent=`Photo ${index+1} / ${cards.length}`;document.getElementById('photo2026-download').href=image.src;document.getElementById('photo2026-credit').textContent='Crédit photo : '+cards[index].dataset.credit;}
  cards.forEach((a,i)=>a.addEventListener('click',e=>{if(!dialog.showModal)return;e.preventDefault();opener=a;show(i);dialog.showModal();}));
  document.getElementById('photos2026-more').addEventListener('click',e=>{shown=Math.min(shown+48,cards.length);cards.slice(0,shown).forEach(a=>a.hidden=false);document.getElementById('photos2026-count').textContent=`${shown} photos sur ${cards.length}`;e.target.hidden=shown===cards.length;});
  document.getElementById('photo2026-close').onclick=()=>dialog.close();
