@@ -243,6 +243,32 @@ jobs:
           assert len(list(site.iterdir())) == 4
           PY
 
+      - name: Rediriger l’ancienne adresse vers le nouveau site
+        if: env.SITE_MAINTENANCE != 'true'
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          destination = "https://boucle-du-bois-barrat.github.io/"
+          redirect_page = f"""<!doctype html>
+          <html lang="fr">
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>Boucle du Bois Barrat</title>
+            <link rel="canonical" href="{destination}">
+            <script>location.replace("{destination}" + location.search + location.hash);</script>
+            <meta http-equiv="refresh" content="0; url={destination}">
+          </head>
+          <body>
+            <p>Retrouvez la Boucle du Bois Barrat à sa nouvelle adresse.</p>
+            <p><a href="{destination}">Accéder au site de la course</a></p>
+          </body>
+          </html>
+          """
+          Path("_site/index.html").write_text(redirect_page, encoding="utf-8")
+          PY
+
       - name: Configurer GitHub Pages
         uses: actions/configure-pages@v5
 
